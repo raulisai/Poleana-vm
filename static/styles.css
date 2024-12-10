@@ -1,0 +1,132 @@
+.tablero {
+    display: grid;
+    grid-template-columns: repeat(16, 20px);
+    grid-template-rows: repeat(16, 20px);
+    gap: 2px; /* Espaciado entre casillas */
+}
+
+.fila {
+    display: contents; /* Para que las filas actúen correctamente en el grid */
+}
+
+.casilla {
+    border: .01px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-size: 1rem;
+    align-content: center;
+    text-align: center;
+}
+.casilla_doble1 {
+    grid-column: span 1; /* ejemplo para columnas que se deben fusionar */
+    grid-row: span 2; /* ejemplo para columnas que se deben fusionar */
+    background-color: #a05908;
+}
+
+.casilla_doble2 {
+    background-color: #a05908;
+    grid-column: span 2; /* ejemplo para columnas que se deben fusionar */
+    grid-row: span 1; /* ejemplo para filas que se deben fusionar */
+}
+.camino_azul
+{ background-color: #a05908; }
+.inicio_azul
+{ background-color: aquamarine; color: transparent; /* Oculta el texto */}
+.camino_verde
+{ background-color: #a05908; }
+.camino_rojo
+{ background-color: #a05908; }
+.inicio_rojo
+{ background-color: orangered; color: transparent; /* Oculta el texto */}
+.camino_amarillo
+{ background-color: #a05908; }
+.canton_azul
+{ background-color: #0000ff; color: transparent; /* Oculta el texto */
+}
+.canton_verde
+{ background-color: #008000; }
+.canton_rojo
+{ background-color: #ff0000; color: transparent; /* Oculta el texto */}
+.canton_amarillo
+{ background-color: #ffff00; }
+.puente1
+{ background-color: #a05908; }
+.puente2
+{ background-color: #a05908; }
+.puente3
+{ background-color: #a05908; }
+.puente4
+{ background-color: #a05908; }
+.vacio
+{ background-color: white; }
+.casilla_doble
+{ background-color: #a05908; } /* Color para las casillas dobles */
+.especial
+{ background-color: #d8bfd8; } /* Color para casillas especiales */
+
+.ficha {
+    width: 15px; /* Tamaño ajustado al interior de la casilla */
+    height: 15px;
+    border-radius: 50%;
+    border: 1px solid black;
+    position: absolute;
+    z-index: 10; /* Para que estén encima de las casillas */
+    align-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: .4em;
+    display: grid;
+}
+
+/* Colores de las fichas */
+.jugador-1 {
+    background-color: blue;
+    color: black;
+}
+.jugador-2 {
+    background-color: red;
+    color: black;
+}
+/* Fichas de los policías (verde) */
+.policia-1 {
+    background-color: yellow;
+}
+/* Fichas de los policías (verde) */
+.policia-2 {
+    background-color: green;
+}
+/* Fichas de los policías (verde) */
+.dados-conteiner {
+    border: .01px solid black;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: aqua;
+    width: 60px;
+    height: 30px;
+}
+.dado {
+    border: .01px solid black;
+    display: contents;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 40px;
+    height: 240px;
+}
+th {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border: .01px solid black;
+}
+tbody {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border: .01px solid black;
+
+}
