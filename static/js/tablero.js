@@ -1,5 +1,6 @@
 import { moverFicha, moverFichaAfuera } from "./fichas.js";
-let fichaSeleccionada = null;
+
+let keydownListener = null; // Referencia al evento actual
 
 // Agregar eventos a todas las fichas al cargarse la página
 document.querySelectorAll(".ficha").forEach((ficha) => {
@@ -11,7 +12,7 @@ document.querySelectorAll(".ficha").forEach((ficha) => {
         const inicioCasilla = document.querySelector(
             `[data-re1="${inicialPosicion}"][data-numero="${ficha.dataset.numero}"]`
         );
-        console.log(inicioCasilla);
+        console.log(inicioCasilla, inicialPosicion);
     
         if (inicioCasilla) {
             inicioCasilla.appendChild(ficha); // Mover ficha al contenedor
@@ -24,7 +25,7 @@ document.querySelectorAll(".ficha").forEach((ficha) => {
         const inicioCasilla = document.querySelector(
             `[data-re2="${inicialPosicion}"][data-numero="${ficha.dataset.numero}"]`
         );
-        console.log(inicioCasilla);
+        console.log(inicioCasilla, inicialPosicion);
         
         if (inicioCasilla) {
             inicioCasilla.appendChild(ficha); // Mover ficha al contenedor
@@ -35,29 +36,39 @@ document.querySelectorAll(".ficha").forEach((ficha) => {
     } else {
         console.error("Jugador no identificado en el dataset.");
     }
-    
         
     document.getElementById("boton-fichas").addEventListener("click", () => {    
         const primerPosicion = -1;
         // Validar si la ficha tiene posición inicial
         if (ficha.dataset.posicion === "-3") {
+
             const nuevaPosicion = primerPosicion;
+
             moverFicha(ficha.id, nuevaPosicion);
             console.log(`Ficha ${ficha.id} seleccionada para mover desde posición inicial.`);
         } else {
+
             console.log(`Ficha ${ficha.id} está en posición ${ficha.dataset.posicion}.`);
         }
-
-
     });
-
+    
     ficha.addEventListener("click", () => {
         const fichaId = ficha.id;
-        fichaSeleccionada = fichaId;
-        console.log(`Ficha seleccionada: ${fichaId}, ${fichaSeleccionada}`);
+        let posicionActual = parseInt(ficha.dataset.posicion, 10);
+        console.log(`click; ${fichaId}, ${posicionActual}, ${inicialPosicion} `);
+
+        // Remover el listener anterior si existe
+        if (keydownListener) {
+            document.removeEventListener("keydown", keydownListener);
+            console.log("quitado");
+        }
+
         // Validar si la ficha tiene posición inicial
-        if (ficha.dataset.posicion === "-1") {
+        if (
+            ficha.dataset.posicion === "-1"
+        ) {
             const [dado1, dado2] = window.dados;
+            console.log(`valemenos ${fichaId}, ${posicionActual}, ${inicialPosicion} `);
         
             // Lógica para determinar la nueva posición según los dados
             if (
@@ -65,65 +76,58 @@ document.querySelectorAll(".ficha").forEach((ficha) => {
                 (dado1 === 4 && dado2 === 2) || (dado1 === 2 && dado2 === 4) ||
                 (dado1 === 3 && dado2 === 3) 
             ) {
-                moverFichaAfuera(ficha.id, 0); // Caso 5-1 o 1-5
+                moverFichaAfuera(fichaId, 0); // Caso 5-1 o 1-5
             } else if (
                 (dado1 === 6 && dado2 === 3) || (dado1 === 3 && dado2 === 6)
             ) {
-                moverFichaAfuera(ficha.id, 3); // Caso 6-3 o 3-6
+                moverFichaAfuera(fichaId, 3); // Caso 6-3 o 3-6
+
             } else if (
                 dado1 === 6 && dado2 === 6
             ) {
-                moverFichaAfuera(ficha.id, 6); // Caso 6-6 con características adicionales
+                moverFichaAfuera(fichaId, 6); // Caso 6-6 con características adicionales
             }
-            fichaSeleccionada = null;
         } else if (
-            ficha.dataset.posicion >= "-1" ||
-            ficha.dataset.posicion <= "61"
+            ficha.dataset.posicion > "-1" ||
+            ficha.dataset.posicion < "62"
         ) {
-            document.addEventListener('keydown', (event) => {
-                if (!fichaSeleccionada) {
+            console.log(`salio ${fichaId}, ${posicionActual}, ${inicialPosicion} `);
+            keydownListener = (event) => {
+                if (!ficha) {
                     console.log('Primero selecciona una ficha.');
                     return;
                 }
-                const [dado1, dado2] = window.dados || [0,0]; // Asegúrate de que los dados están disponibles
-                const posicionActual = parseInt(ficha.dataset.posicion, 10);
                 let nuevaPosicion;
-                if (ficha.dataset.posicion >= 0 && ficha.dataset.posicion <= 61 ) {
-                    switch (event.key.toLowerCase()) {
-                        case 'a':
-                    
-                            nuevaPosicion = posicionActual + dado1;
-                    
-                            moverFichaAfuera(fichaId, nuevaPosicion);
-                    
-                            break;
-                        case 'b':
-                    
-                            nuevaPosicion = posicionActual + dado2;
-                            moverFichaAfuera(fichaId, nuevaPosicion);
-                    
-                            break;
-                        case 'c':
-                    
-                            nuevaPosicion = posicionActual + dado1 + dado2 ;
-                            moverFichaAfuera(fichaId, nuevaPosicion);
-                    
-                            break;
-                        default:
-                            console.log('Tecla no válida.');
-                            return;
-                    }
+                const [dado1, dado2] = window.dados || [0,0]; // Asegúrate de que los dados están disponibles
+                console.log(`abc ${fichaId}, ${posicionActual}, ${inicialPosicion} `);
+                switch (event.key.toLowerCase()) {
+                    case 'a':
 
-                    moverFichaAfuera(fichaId, nuevaPosicion);
+                        nuevaPosicion = posicionActual + dado1;
+                
+                        break;
+                    case 'b':
 
-                    fichaSeleccionada = null;
-                    
-                } else {
-                    console.log("Ficha no esta en rango");
+                        nuevaPosicion = posicionActual + dado2;
+
+                        break;
+                    case 'c':
+
+                        nuevaPosicion = posicionActual + dado1 + dado2 ;
+
+                        break;
+                    default:
+                        console.log('Tecla no válida.');
+                        return;
                 }
-                fichaSeleccionada = null;
-            });
-        }    
+                moverFichaAfuera(fichaId, nuevaPosicion);
+                
+            };
+            document.addEventListener("keydown", keydownListener);
+                    
+        } else {
+            console.log("Ficha no esta en rango");
+        }
     });
 });
 

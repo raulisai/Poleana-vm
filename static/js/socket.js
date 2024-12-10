@@ -18,7 +18,7 @@ socket.on('estado_tablero', (data) => {
     console.log(`Tablero actualizado ${data}`); 
     });
 socket.on("mover_ficha", (data) => {
-    fichaID=data.ficha_id;
+    fichaId=data.ficha_id;
     nuevaPosicion=data.posicion;
     moverFicha(fichaId, nuevaPosicion);
     moverFichaAfuera(fichaId, nuevaPosicion);

@@ -1,5 +1,27 @@
 import { actualizarTablaDebug } from "./debug.js"
 
+function contarFichasEnPosicion(jugador, posicion) {
+    // Seleccionar todas las fichas
+    const fichas = document.querySelectorAll(".ficha");
+    
+    // Filtrar y contar las fichas que coinciden con el jugador y la posición
+    const contador = Array.from(fichas).filter(
+        ficha => ficha.dataset.jugador === jugador && ficha.dataset.posicion === String(posicion)
+    ).length;
+
+    console.log(contador);
+    return contador;
+}
+
+function actualizarContadores() {
+    const fichasJugador1 = contarFichasEnPosicion("1", -1);
+    const fichasJugador2 = contarFichasEnPosicion("2", -1);
+
+    document.getElementById("contador-jugador-1").innerText = `Jugador 1: ${fichasJugador1} fichas en -1`;
+    document.getElementById("contador-jugador-2").innerText = `Jugador 2: ${fichasJugador2} fichas en -1`;
+}
+
+
 export async function moverFicha(fichaId, nuevaPosicion) {
     const respuesta = await fetch('/mover_ficha', {
         method: 'POST',
@@ -15,10 +37,10 @@ export async function moverFicha(fichaId, nuevaPosicion) {
     if (data.success) {
         // Actualizar visualmente
         const ficha = document.getElementById(fichaId);
-        console.log(ficha.dataset.jugador);
+        console.log(ficha.dataset.jugador, fichaId);
 
         // Actualizar la tabla de depuración
-        const casillaDestino = document.querySelector(`[data-re${ficha.dataset.jugador}="${nuevaPosicion}"]`);
+        const casillaDestino = document.querySelector(`[data-re${ficha.dataset.jugador}="${nuevaPosicion}"][data-numero="${ficha.dataset.numero}"]`);
         const fila = casillaDestino.getAttribute("data-fila");
         const columna = casillaDestino.getAttribute("data-columna");
         actualizarTablaDebug(ficha.id, nuevaPosicion, fila, columna);
@@ -35,6 +57,7 @@ export async function moverFicha(fichaId, nuevaPosicion) {
             if (nuevaCasilla) {
                 nuevaCasilla.appendChild(ficha); // Mover ficha al contenedor
                 ficha.dataset.posicion = nuevaPosicion; // Actualizar posición
+                actualizarContadores();
             } else {
                 console.error(`No se encontró la casilla para jugador 1 en posición ${nuevaPosicion}`);
             }
@@ -48,6 +71,7 @@ export async function moverFicha(fichaId, nuevaPosicion) {
             if (nuevaCasilla) {
                 nuevaCasilla.appendChild(ficha); // Mover ficha al contenedor
                 ficha.dataset.posicion = nuevaPosicion; // Actualizar posición
+                actualizarContadores();
             } else {
                 console.error(`No se encontró la casilla para jugador 2 en posición ${nuevaPosicion}`);
             }
@@ -73,7 +97,7 @@ export async function moverFichaAfuera(fichaId, nuevaPosicion) {
 
         // Actualizar visualmente
         const ficha = document.getElementById(fichaId);
-        console.log(ficha.dataset.jugador);
+        console.log(ficha.dataset.jugador, fichaId);
 
         // Actualizar la tabla de depuración
         const casillaDestino = document.querySelector(`[data-re${ficha.dataset.jugador}="${nuevaPosicion}"]`);
@@ -93,6 +117,7 @@ export async function moverFichaAfuera(fichaId, nuevaPosicion) {
             if (nuevaCasilla) {
                 nuevaCasilla.appendChild(ficha); // Mover ficha al contenedor
                 ficha.dataset.posicion = nuevaPosicion; // Actualizar posición
+                actualizarContadores();
             } else {
                 console.error(`No se encontró la casilla para jugador 1 en posición ${nuevaPosicion}`);
             }
@@ -105,7 +130,8 @@ export async function moverFichaAfuera(fichaId, nuevaPosicion) {
             
             if (nuevaCasilla) {
                 nuevaCasilla.appendChild(ficha); // Mover ficha al contenedor
-                ficha.dataset.posicion = nuevaPosicion; // Actualizar posición
+                ficha.dataset.posicion = nuevaPosicion; // Actualizar 
+                actualizarContadores();
             } else {
                 console.error(`No se encontró la casilla para jugador 2 en posición ${nuevaPosicion}`);
             }
