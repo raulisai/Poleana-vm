@@ -6,6 +6,7 @@ document.querySelectorAll(".ficha").forEach((ficha) => {
         posicion: ficha.dataset.posicion,
         numero: ficha.dataset.numero,
         jugador: ficha.dataset.jugador,
+        casilla_id: ficha.dataset.casilla_id,
     });
 });
 

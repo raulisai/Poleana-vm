@@ -1,6 +1,6 @@
 import { mostrarNotificacion, sincronizarEstadoInicial } from './utils.js';
 import { mostrarUltimosTiros } from './dados.js';
-import { moverFicha, moverFichaAfuera,  } from './fichas.js';
+import { moverFichaAfuera,  } from './fichas.js';
 var socket = io();
 
 socket.on("connect", () => console.log("Conectado al servidor Socket.IO"));
@@ -20,7 +20,6 @@ socket.on('estado_tablero', (data) => {
 socket.on("mover_ficha", (data) => {
     fichaId=data.ficha_id;
     nuevaPosicion=data.posicion;
-    moverFicha(fichaId, nuevaPosicion);
     moverFichaAfuera(fichaId, nuevaPosicion);
     });
 
