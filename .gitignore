@@ -13,6 +13,7 @@ instance/
 
 # Ignorar archivos sensibles
 .env
+venv
 
 .idea/
 .vscode/
