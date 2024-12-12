@@ -7,6 +7,7 @@ from database_reset import reset_database
 from modelos import Ficha, Jugador, Casilla
 from tablero.casillas import tablero_configurado
 from dados import obtener_ultimos_tiros
+from game_state import game_state
 
 
 reset_database()
@@ -21,17 +22,24 @@ def index():
     """_summary_Returns:_type_: _description_"""
     jugadores = Jugador.query.all()  # Obtenemos todos los jugadores
     fichas = Ficha.query.all()  # Obtenemos todas las fichas
-    casillas = Casilla.query.all()
     tiros = obtener_ultimos_tiros()
     return render_template(
         "index.html",
         jugadores=jugadores,
         fichas=fichas,
-        casillas=casillas,
-        tablero_configurado=tablero_configurado,
+        casillas=game_state.obtener_casillas_tablero(),
         tiros=tiros,
     )
 
+
+@app.route("/test")
+def test():
+    """_summary_Returns:_type_: _description_"""
+    jugadores = Jugador.query.all()  # Obtenemos todos los jugadores
+    fichas = Ficha.query.all()  # Obtenemos todas las fichas
+    casillas = Casilla.query.all()
+    print("Casillas:", casillas)
+    return jsonify({"success": True, "mensaje": "Test exitoso."}), 200
 
 @app.route("/mover_ficha", methods=["POST"])
 def mover_ficha():

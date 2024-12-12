@@ -2,7 +2,6 @@
 
 from app_config import db, app
 from modelos import Jugador, Ficha, Casilla
-from tablero.casillas import tablero_configurado
 
 
 def reset_database():
@@ -28,27 +27,5 @@ def reset_database():
         db.session.add_all(fichas)
         db.session.commit()
 
-        # Agregar datos iniciales para verificar
-        casillas = []
-        for fila_index, fila in enumerate(tablero_configurado):
-            for columna_index, celda in enumerate(fila):
-                # Crear una instancia de Casilla
-                casilla = Casilla(
-                    fila=fila_index,
-                    columna=columna_index,
-                    re1=celda["re1"],
-                    re2=celda["re2"],
-                    numero=celda["numero"],
-                    tipo= celda["tipo"],
-                    esp1=celda["esp1"],
-                    esp2=celda["esp2"],
-                    rowspan=celda["rowspan"],
-                    colspan=celda["colspan"],
-                )
-                casillas.append(casilla)
-
-        # Insertar todas las casillas en la base de datos
-        db.session.add_all(casillas)
-        db.session.commit()
 
         print("Base de datos reiniciada con jugadores y fichas.")
