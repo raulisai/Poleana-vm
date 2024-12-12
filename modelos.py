@@ -34,18 +34,20 @@ class Ficha(db.Model):
     numero = db.Column(db.Integer, nullable=False)
     posicion = db.Column(db.Integer, nullable=False)  # Posición inicial de la ficha
     jugador_id = db.Column(db.Integer, db.ForeignKey("jugador.id"), nullable=False)
+    casilla_id = db.Column(db.String, db.ForeignKey("casilla.casilla_id"), nullable=True)
 
-    def __init__(self, posicion, numero, jugador_id):
-        self.ficha_id = f"Fj{jugador_id}-{numero}"
-        self.numero = numero
-        # Genera el ID dinámicamente # Inicializa el atributo 'posicion'
+    def __init__(self, posicion, numero, jugador_id, casilla_id):
+        self.ficha_id = f"Fj{jugador_id}-{numero}" # Genera el ID dinámicamente
+        self.numero = numero # Inicializa el atributo 'numero'
         self.posicion = posicion  # Inicializa el atributo 'posicion'
         self.jugador_id = jugador_id  # Inicializa el atributo 'jugador_id'
+        self.casilla_id = casilla_id # Inicializa el atributo 'casilla_id'
 
     def __repr__(self):
         return (
-            f"<Ficha {self.ficha_id}: Posición={self.posicion}>,"
-            f"<Jugador={self.jugador_id}>, <Numero={self.numero}>"
+            f"<Ficha {self.ficha_id}: Posición={self.posicion},"
+            f"Jugador={self.jugador_id}, Numero={self.numero},"
+            f"Casilla={self.casilla_id}>"
         )
 
 
@@ -66,9 +68,9 @@ class Casilla(db.Model):
     esp2 = db.Column(db.String(50), primary_key=True)
 
     def __init__(
-        self, columna, fila, re1, re2, numero, tipo, esp1, esp2, colspan, rowspan
+        self, casilla_id, columna, fila, re1, re2, numero, tipo, esp1, esp2, colspan, rowspan
     ):
-        self.casilla_id = f"casilla-{fila}-{columna}"
+        self.casilla_id = casilla_id
         self.columna = columna
         self.numero = numero
         self.fila = fila

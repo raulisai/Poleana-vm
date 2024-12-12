@@ -69,7 +69,7 @@ def mover_ficha():
         )
 
     # Validación de posiciones normales
-    if ficha.posicion != -3 and nueva_posicion not in range(0, 62):
+    if nueva_posicion not in range(0, 62):
         return jsonify({"success": False, "mensaje": "Movimiento fuera de rango."}), 400
 
     # Actualizar la posición

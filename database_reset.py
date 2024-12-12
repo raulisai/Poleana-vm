@@ -2,6 +2,7 @@
 
 from app_config import db, app
 from modelos import Jugador, Ficha, Casilla
+from tablero.casillas import tablero_configurado, obtener_casilla_inicial
 
 
 def reset_database():
@@ -19,11 +20,27 @@ def reset_database():
         db.session.commit()
 
         # Crear fichas asociadas a los jugadores
-        fichas = [
-            Ficha(posicion=-3, jugador_id=i, numero=j)
-            for i in range(1, 3)
-            for j in range(1, 5)
-        ]
+        fichas = []
+        for jugador_id in range(1, 3):
+            for numero in range(1, 5):
+                casilla_inicial = obtener_casilla_inicial(jugador_id, numero)
+
+                if casilla_inicial:
+                    ficha = Ficha(
+                        posicion=(
+                            casilla_inicial["re1"]
+                            if jugador_id == 1
+                            else casilla_inicial["re2"]
+                        ),
+                        jugador_id=jugador_id,
+                        numero=numero,
+                        casilla_id=casilla_inicial["id"],  # Asociar la casilla directamente
+                    )
+                    fichas.append(ficha)
+                else:
+                    print(
+                        f"Adve: No se encontró casilla para Jugador {jugador_id}, Ficha {numero}"
+                        )
         db.session.add_all(fichas)
         db.session.commit()
 

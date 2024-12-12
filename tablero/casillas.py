@@ -91,6 +91,7 @@ def crear_tablero(
             # Añadir la casilla con todos los datos integrados
             fila_completa.append(
                 {
+                    "id": f"casilla-{i}-{j}",
                     "tipo": tipo,
                     "numero": numero,
                     "colspan": colspan,
@@ -116,7 +117,17 @@ tablero_configurado = crear_tablero(
     matriz_recorrido1,
     matriz_recorrido2,
 )
-
+def obtener_casilla_inicial(jugador_id, numero):
+    """obtener la casilla inicial de cada ficha"""
+    for fila in tablero_configurado:
+        for casilla in fila:
+            # Verificar si la casilla corresponde a la posición inicial
+            if jugador_id == 1 and casilla.get("re1") == -1 and casilla.get("numero") == numero:
+                return casilla
+            elif jugador_id == 2 and casilla.get("re2") == -1 and casilla.get("numero") == numero:
+                return casilla
+    print(f"Error: No se encontró una casilla inicial para Jugador {jugador_id}, Ficha {numero}")
+    return None
 #print("Tablero configurado:")
 #for fila in tablero_configurado:
     #for casilla in fila:

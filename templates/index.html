@@ -13,7 +13,7 @@
             {% for casilla in casillas %}
                 <div class="casilla {{ casilla.tipo}}"
                     data-tipo="{{ casilla.tipo }}"
-                    id="{{ casilla.casilla_id}}" 
+                    id="{{ casilla.casilla_id }}" 
                     data-re1="{{ casilla.re1 }}" 
                     data-re2="{{ casilla.re2 }}"
                     data-columna="{{ casilla.columna }}" 
@@ -32,7 +32,8 @@
                      id="{{ ficha.ficha_id }}"
                      data-jugador="{{ ficha.jugador_id }}"
                      data-posicion="{{ ficha.posicion }}"
-                     data-numero="{{ ficha.numero }}">
+                     data-numero="{{ ficha.numero }}"
+                     data-casilla_id="{{ ficha.casilla_id}}">
                     {{ ficha.ficha_id }}
                 </div>
             {% endfor %}
@@ -70,8 +71,7 @@
                 <tr>
                     <th>Ficha</th>
                     <th>Posición</th>
-                    <th>Columna</th>
-                    <th>Fila</th>
+                    <th>Casilla</th>
                 </tr>
             </thead>
             <tbody>

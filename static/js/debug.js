@@ -1,4 +1,4 @@
-export function actualizarTablaDebug(fichaId, posicion, fila, columna) {
+export function actualizarTablaDebug(fichaId, posicion, casilla_id) {
     const tablaDebug = document.getElementById("tabla-debug").querySelector("tbody");
     const filaExistente = Array.from(tablaDebug.children).find(
         (fila) => fila.children[0].innerText === fichaId
@@ -9,8 +9,7 @@ export function actualizarTablaDebug(fichaId, posicion, fila, columna) {
         filaExistente.innerHTML = `
             <td>${fichaId}</td>
             <td>${posicion}</td>
-            <td>${columna}</td>
-            <td>${fila}</td>
+            <td>${casilla_id}</td>
         `;
     } else {
         // Crea una nueva fila
@@ -18,8 +17,7 @@ export function actualizarTablaDebug(fichaId, posicion, fila, columna) {
         nuevaFila.innerHTML = `
             <td>${fichaId}</td>
             <td>${posicion}</td>
-            <td>${columna}</td>
-            <td>${fila}</td>
+            <td>${casilla_id}</td>
         `;
         tablaDebug.appendChild(nuevaFila);
     }
