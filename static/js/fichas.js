@@ -47,7 +47,7 @@ async function moverFichaGenerico(fichaId, nuevaPosicion, esAfuera = false) {
 }
 
 // Actualizar contadores de fichas en posición -1
-function actualizarContadores() {
+export function actualizarContadores() {
     const contarFichas = (jugador) => Array.from(document.querySelectorAll(`.ficha[data-jugador="${jugador}"][data-posicion="-1"]`)).length;
     document.getElementById("contador-jugador-1").innerText = `Jugador 1: ${contarFichas("1")} fichas en -1`;
     document.getElementById("contador-jugador-2").innerText = `Jugador 2: ${contarFichas("2")} fichas en -1`;

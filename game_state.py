@@ -31,16 +31,18 @@ class GameState:
         """_summary_Returns:_type_: _description_"""
         # Agregar datos iniciales para verificar
         self.casillas = []
+
         for fila_index, fila in enumerate(tablero_configurado):
             for columna_index, celda in enumerate(fila):
                 # Crear una instancia de Casilla
                 casilla = Casilla(
+                     casilla_id=celda["id"],
                     fila=fila_index,
                     columna=columna_index,
                     re1=celda["re1"],
                     re2=celda["re2"],
                     numero=celda["numero"],
-                    tipo= celda["tipo"],
+                    tipo=celda["tipo"],
                     esp1=celda["esp1"],
                     esp2=celda["esp2"],
                     rowspan=celda["rowspan"],
